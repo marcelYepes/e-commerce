@@ -38,8 +38,8 @@ function printProducts(st) {
             <img src="${image}" alt="" />
           </div>
           <div class="product_body">
-            <h3>${name} | <span>stock: ${quantity}</span></h3>
-            <p>$${price}.00 USD <i class="bx bx-plus" id= ${id}></i></p>
+          <p><b>$${price}.00</b><i class="bx bx-plus" id= ${id}></i> <span>Stock: ${quantity}</span></p><h3>${name}</h3>
+            
           </div>
         </div>
     `;
@@ -62,12 +62,12 @@ function printInCart(st) {
               <img src="${image}" alt="" />
             </div>
             <div class="itemProduct_body">
-              <h3>${name} | <span>stock: ${quantity}</span></h3>
-              <p>$${price}.00 USD</p>
+              <h3>${name} </h3> 
+              <p><span>stock: ${quantity}</span><h4>|$${price}.00</h4></p>
 
               <div class="itemProduct_op">
                     <i class='bx bx-minus' id= "${id}"></i>
-                    <span>${amount}</span>
+                    <span>${amount} unit</span>
                     <i class='bx bx-plus' id= "${id}"></i>
                     <i class='bx bx-trash-alt' id= "${id}" ></i>
               </div>
@@ -97,7 +97,7 @@ function addCartFromProducts(st) {
 
       const productFound = productFind(st, productId);
 
-      if (st.card[productFound.id]) {
+      if (st.cart[productFound.id]) {
         addProduct(st, productFound, productId);
       } else {
         const newProduct = structuredClone(productFound);
@@ -140,6 +140,23 @@ function handelCart(st) {
   });
 }
 
+function printTotal(st) {
+  const infoTotal = document.querySelector("info_total");
+  const infoAmount = document.querySelector("info_amount");
+
+  let totalProducts = 0;
+  let amountProducts = 0;
+
+  for (const product in st.cart) {
+    const { amount, price } = st.cart[product];
+    totalProducts += price * amount;
+    amountProducts += amount;
+  }
+
+  infoTotal.textContent = totalProducts + " units";
+  infoAmount.textContent = "$" + amountProducts + ".00";
+}
+
 async function main() {
   const st = {
     products: JSON.parse(localStorage.getItem("products")) || (await getApi()),
@@ -152,6 +169,7 @@ async function main() {
   addCartFromProducts(st);
   printInCart(st);
   handelCart(st);
+  printTotal(st);
 }
 
 main();
