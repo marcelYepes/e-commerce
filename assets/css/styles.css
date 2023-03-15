@@ -49,6 +49,25 @@ nav {
 nav i {
   font-size: 1.5rem;
   cursor: pointer;
+  position: relative;
+}
+
+.amountProducts {
+  width: 20px;
+  height: 20px;
+  font-size: 0.8rem;
+  background-color: #000;
+  color: #fff;
+  display: inline-block;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  right: -5px;
+  top: 15px;
 }
 
 .products {
@@ -94,6 +113,15 @@ nav i {
   font-size: 0.8rem;
   color: grey;
   padding-left: 1rem;
+  user-select: none;
+}
+
+.product_body .soldout {
+  display: inline-block;
+  color: #fff;
+  background-color: lightcoral;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
 .product_body .bx-plus {

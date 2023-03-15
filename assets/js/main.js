@@ -37,10 +37,19 @@ function printProducts(st) {
           <div class="product_img">
             <img src="${image}" alt="" />
           </div>
+
           <div class="product_body">
-          <p><b>$${price}.00</b><i class="bx bx-plus" id= ${id}></i> <span>Stock: ${quantity}</span></p><h3>${name}</h3>
-            
+          <h3>${name} | <span><b>Stock</b>: ${quantity}</span></h3>
+          <h5>
+          $${price}
+          ${
+            quantity
+              ? `<i class="bx bx-plus" id= "${id}"></i>`
+              : "<span class='soldout'>Sold out</span>"
+          }
+          </h5>
           </div>
+
         </div>
     `;
   });
@@ -107,11 +116,13 @@ function addCartFromProducts(st) {
 
       localStorage.setItem("cart", JSON.stringify(st.cart));
       printInCart(st);
+      printTotal(st);
+      handlePrintAmountProducts(st);
     }
   });
 }
 
-function handelCart(st) {
+function handleCart(st) {
   const cartProducts = document.querySelector(".cart_products");
 
   cartProducts.addEventListener("click", function (e) {
@@ -135,14 +146,16 @@ function handelCart(st) {
       deleteProduct(st, idProduct);
     }
 
-    localStorage.setItem("cart", JSON.stringify(st));
+    localStorage.setItem("cart", JSON.stringify(st.cart));
     printInCart(st);
+    printTotal(st);
+    handlePrintAmountProducts(st);
   });
 }
 
 function printTotal(st) {
-  const infoTotal = document.querySelector("info_total");
-  const infoAmount = document.querySelector("info_amount");
+  const infoTotal = document.querySelector(".info_total");
+  const infoAmount = document.querySelector(".info_amount");
 
   let totalProducts = 0;
   let amountProducts = 0;
@@ -152,9 +165,57 @@ function printTotal(st) {
     totalProducts += price * amount;
     amountProducts += amount;
   }
+  infoAmount.textContent = amountProducts + " units";
+  infoTotal.textContent = "$" + totalProducts + ".00";
+}
 
-  infoTotal.textContent = totalProducts + " units";
-  infoAmount.textContent = "$" + amountProducts + ".00";
+function handleTotal(st) {
+  const btnBuy = document.querySelector(".btn_buy");
+
+  btnBuy.addEventListener("click", function () {
+    if (!Object.values(st.cart).length)
+      return alert("Debes agregar algún producto para comprar😁");
+
+    const response = confirm("Estas seguro de seguir con tu compra?");
+    if (!response) return;
+
+    const currentProducts = [];
+
+    for (const product of st.products) {
+      const productCart = st.cart[product.id];
+      if (product.id === productCart?.id) {
+        currentProducts.push({
+          ...product,
+          quantity: product.quantity - productCart.amount,
+        });
+      } else {
+        currentProducts.push(product);
+      }
+    }
+
+    st.products = currentProducts;
+    st.cart = {};
+
+    localStorage.setItem("products", JSON.stringify(st.products));
+    localStorage.setItem("cart", JSON.stringify(st.cart));
+
+    printTotal(st);
+    printInCart(st);
+    printProducts(st);
+    handlePrintAmountProducts(st);
+  });
+}
+
+function handlePrintAmountProducts(st) {
+  const amountProducts = document.querySelector(".amountProducts");
+
+  let amount = 0;
+
+  for (const product in st.cart) {
+    amount += st.cart[product].amount;
+  }
+
+  amountProducts.textContent = amount;
 }
 
 async function main() {
@@ -168,8 +229,10 @@ async function main() {
   showCart();
   addCartFromProducts(st);
   printInCart(st);
-  handelCart(st);
+  handleCart(st);
   printTotal(st);
+  handleTotal(st);
+  handlePrintAmountProducts(st);
 }
 
 main();
