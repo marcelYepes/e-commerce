@@ -218,6 +218,66 @@ function handlePrintAmountProducts(st) {
   amountProducts.textContent = amount;
 }
 
+function filterProducts(products) {
+  let html = "";
+
+  products.forEach((product) => {
+    html += `
+          <div class="product ${product.category}">
+              <div class="product__img">
+                  <img src="${product.image}" alt="">
+              </div>
+
+              <div class="product__body">
+                  <h3>${product.name}</h3>
+              </div>
+          </div>
+      `;
+  });
+
+  document.querySelector(".products").innerHTML = html;
+}
+
+function handleFilter() {
+  const filterSHTML = document.querySelectorAll(".filters .btn__filter");
+
+  filterSHTML.forEach((filter) => {
+    filter.addEventListener("click", (e) => {
+      filterSHTML.forEach((filter) =>
+        filter.classList.remove("btn__filter--active")
+      );
+
+      e.target.classList.add("btn__filter--active");
+    });
+  });
+
+  mixitup(".products", {
+    selectors: {
+      target: ".product",
+    },
+    animation: {
+      duration: 300,
+    },
+  });
+}
+
+function printFilter(products) {
+  let obj = {};
+
+  for (const product of products) {
+    obj[product.category] = obj[product.category] + 1 || 1;
+  }
+
+  let html =
+    '<button class="btn__filter btn__filter--active" data-filter="all">All</button>';
+
+  for (const key in obj) {
+    html += `<button class="btn__filter" data-filter=".${key}">${key} <br> <small>${obj[key]} items</small></button>`;
+  }
+
+  document.querySelector(".filters").innerHTML = html;
+}
+
 async function main() {
   const st = {
     products: JSON.parse(localStorage.getItem("products")) || (await getApi()),
@@ -233,6 +293,9 @@ async function main() {
   printTotal(st);
   handleTotal(st);
   handlePrintAmountProducts(st);
+  filterProducts(products);
+  handleFilter();
+  printFilter(products);
 }
 
 main();
