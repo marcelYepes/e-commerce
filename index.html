@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./assets/img/logo1.svg" />
+    <link rel="icon" href="./assets/img/logo.svg" />
     <title>Academlo store</title>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
@@ -18,32 +18,22 @@
   <body>
     <header>
       <nav class="navbar container">
+
         <a href="#home" class="navbar_logo">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48.92 56.48"
-            class="navbar_logo-icon"
-          >
-            <title>Academlo Logo</title>
-            <g>
-              <g>
-                <path
-                  d="M28.58,15.39H25.16L35.78,36H31.49L20.67,15.71,8.23,38.82H18.94l3-5.43h-3.4l-1.47,2.54h-4l2.69-5.09H25.85l4.28,8H40.67ZM17.23,28.21l3.57-6.6,3.57,6.6Z"
-                ></path>
-              </g>
-            </g>
-          </svg>
+         <img src="./assets/img/logo.svg" alt="logo">
           <span>STORE</span>
         </a>
-        <ul class="menu">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#products">Products</a></li>
+
+        <ul class="navbar_menu">
+            <li><a class="link_active" href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
         </ul>
+
         <div class="navbar_icons">
-          <i class="bx bx-moon" id="iconTheme"></i>
+          <i class="bx bx-moon" id="darkMode"></i>
           <i class="bx bx-shopping-bag" id="iconShowCart"></i>
           <span class="amountProducts"></span>
-          <i class="bx handleIconNavbar bxs-dashboard"></i>
+          <i class="bx bxs-dashboard"></i>
         </div>
       </nav>
     </header>
@@ -67,9 +57,13 @@
       </section>
 
       <div class="container">
-        <div class="filters"></div>
-        <div class="products"></div>
-      </div>
+        <div class="filters">
+          <button class="btn_filter btn_filter-active" data-filter="all">All</button>
+          <button class="btn_filter" data-filter=".Shirt">Shirt</button>
+          <button class="btn_filter" data-filter=".Hoddie">Hoddie</button>
+          <button class="btn_filter" data-filter=".Sweater">Sweater</button>
+        </div>
+      <div class="products"></div>
     </div>
 
     <div class="cart">
@@ -83,5 +77,54 @@
         <button class="btn_buy">Comprar</button>
       </div>
     </div>
+    <footer>
+      <div class="footer_content container">
+        <div class="footer_info">
+          <h3 class="footer_info-tile">Our information</h3>
+          <ul>
+            <li><a href="#">Toluca - México</a></li>
+          </ul>
+        </div>
+        <div class="footer_info">
+          <h3 class="footer_info-tile">About Us</h3>
+          <ul>
+            <li><a href="#">Support Center</a></li>
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Copy Right</a></li>
+          </ul>
+        </div>
+        <div class="footer_info">
+          <h3 class="footer_info-tile">Products</h3>
+          <ul>
+            <li><a href="#">Shirts</a></li>
+            <li><a href="#">Hoodies</a></li>
+            <li><a href="#">Sweaters</a></li>
+          </ul>
+        </div>
+        <div class="footer_info">
+          <h3 class="footer_info-tile">Social</h3>
+          <ul class="footer_link-social">
+            <li><a href="#">
+              <i class="bx bxl-facebook"></i>
+            </a></li>
+            <li><a href="#">
+              <i class="bx bxl-twitter"></i>
+            </a></li>
+            <li><a href="#">
+              <i class="bx bxl-instagram"></i>
+            </a></li>
+          </ul>
+        </div>
+      </div> 
+      <p>
+        <b>
+          <span>Realizado por</span><br>
+          Marcel Yepes Alvarez <br>
+          marcelyepesqf@gmail.com <br>
+          <a href="#">repositorio</a>
+        </b>
+      </p>
+    </footer>
   </body>
 </html>

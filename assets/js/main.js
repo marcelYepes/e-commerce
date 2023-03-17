@@ -218,64 +218,33 @@ function handlePrintAmountProducts(st) {
   amountProducts.textContent = amount;
 }
 
-function filterProducts(products) {
-  let html = "";
+function menuShow() {
+  const menuShow = document.querySelector(".bxs-dashboard");
+  const menu = document.querySelector(".navbar_menu");
 
-  products.forEach((product) => {
-    html += `
-          <div class="product ${product.category}">
-              <div class="product__img">
-                  <img src="${product.image}" alt="">
-              </div>
-
-              <div class="product__body">
-                  <h3>${product.name}</h3>
-              </div>
-          </div>
-      `;
-  });
-
-  document.querySelector(".products").innerHTML = html;
-}
-
-function handleFilter() {
-  const filterSHTML = document.querySelectorAll(".filters .btn__filter");
-
-  filterSHTML.forEach((filter) => {
-    filter.addEventListener("click", (e) => {
-      filterSHTML.forEach((filter) =>
-        filter.classList.remove("btn__filter--active")
-      );
-
-      e.target.classList.add("btn__filter--active");
-    });
-  });
-
-  mixitup(".products", {
-    selectors: {
-      target: ".product",
-    },
-    animation: {
-      duration: 300,
-    },
+  menuShow.addEventListener("click", function () {
+    menu.classList.toggle("navbar_menu_show");
   });
 }
 
-function printFilter(products) {
-  let obj = {};
+function navbarActive() {
+  const navbar = document.querySelector(".navbar");
 
-  for (const product of products) {
-    obj[product.category] = obj[product.category] + 1 || 1;
-  }
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 200) {
+      navbar.classList.add("navbar_active");
+    } else {
+      navbar.classList.remove("navbar_active");
+    }
+  });
+}
 
-  let html =
-    '<button class="btn__filter btn__filter--active" data-filter="all">All</button>';
+function darkMode() {
+  const darkMode = document.querySelector("#darkMode");
 
-  for (const key in obj) {
-    html += `<button class="btn__filter" data-filter=".${key}">${key} <br> <small>${obj[key]} items</small></button>`;
-  }
-
-  document.querySelector(".filters").innerHTML = html;
+  darkMode.addEventListener("click", function () {
+    document.body.classList.toggle("darkMode");
+  });
 }
 
 async function main() {
@@ -293,16 +262,18 @@ async function main() {
   printTotal(st);
   handleTotal(st);
   handlePrintAmountProducts(st);
-  filterProducts(products);
-  handleFilter();
-  printFilter(products);
+  menuShow();
+  navbarActive();
+  darkMode();
+
+  let mixer = mixitup(".products", {
+    selectors: {
+      target: ".product",
+    },
+    animation: {
+      duration: 300,
+    },
+  });
 }
 
 main();
-
-// const iconMenu = document.querySelector(".bxs-dashboard");
-// const menu = document.querySelector(".menu");
-
-// iconMenu.addEventListener("click", function () {
-//   menu.classList.toggle("menu_show");
-// });
